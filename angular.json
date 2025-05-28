@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "split-fair": {
+    "splitfair": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/split-fair",
+            "outputPath": "dist/splitfair",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js", "src/polyfills.ts"],
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "split-fair:build:production"
+              "buildTarget": "splitfair:build:production"
             },
             "development": {
-              "buildTarget": "split-fair:build:development"
+              "buildTarget": "splitfair:build:development"
             }
           },
           "defaultConfiguration": "development"
