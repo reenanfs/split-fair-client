@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Amplify } from 'aws-amplify';
 import { I18n } from 'aws-amplify/utils';
@@ -9,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AmplifyConfigService {
-  constructor(private http: HttpClient) {
+  constructor() {
     I18n.putVocabularies(translations);
     I18n.setLanguage('pt');
 

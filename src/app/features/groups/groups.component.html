@@ -1,0 +1,23 @@
+<form [formGroup]="groupCreationForm" (ngSubmit)="createGroup()">
+  <mat-form-field appearance="outline">
+    <mat-label>Group Name</mat-label>
+    <input
+      matInput
+      placeholder="Enter group name"
+      formControlName="groupName"
+      required
+    />
+    <mat-error *ngIf="groupCreationForm.get('groupName')?.hasError('required')">
+      Group name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="groupCreationForm.invalid"
+    type="submit"
+  >
+    Create group
+  </button>
+</form>
