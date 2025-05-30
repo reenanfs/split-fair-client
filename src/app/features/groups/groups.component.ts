@@ -58,4 +58,15 @@ export class GroupsComponent {
         });
     }
   }
+
+  retrieveGroups() {
+    this.http.get(`${environment.apiUrl}/api/v1/groups`).subscribe({
+      next: (res) => {
+        console.log('Groups retrieves!', res);
+      },
+      error: (error) => {
+        console.log('An error ocurred!', error);
+      },
+    });
+  }
 }
