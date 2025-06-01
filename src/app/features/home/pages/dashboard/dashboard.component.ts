@@ -1,14 +1,13 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AuthenticatorService } from '@aws-amplify/ui-angular';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  imports: [],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss',
 })
-export class HomeComponent {
+export class DashboardComponent {
   constructor(public authService: AuthenticatorService) {}
 }

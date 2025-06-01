@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { HomeComponent } from '@features/home/home.component';
-import { SettingsComponent } from '@features/settings/settings.component';
+import { SettingsComponent } from '@features/settings/pages/settings/settings.component';
 import { PublicContentComponent } from '@core/components/contents/public-content/public-content.component';
 import { ProtectedContentComponent } from '@core/components/contents/protected-content/protected-content.component';
-import { GroupsComponent } from '@features/groups/groups.component';
+import { GroupsComponent } from '@features/group/pages/groups/groups.component';
+import { GroupDetailComponent } from '@features/group/pages/group-details/group-detail.component';
+import { DashboardComponent } from '@features/home/pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -13,11 +14,15 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent,
+        component: DashboardComponent,
       },
       {
         path: 'groups',
         component: GroupsComponent,
+      },
+      {
+        path: 'groups/:id',
+        component: GroupDetailComponent,
       },
       {
         path: 'settings',

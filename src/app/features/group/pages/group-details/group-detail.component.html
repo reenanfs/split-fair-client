@@ -1,0 +1,9 @@
+<div *ngIf="groupDetails$ | async as groupDetails; else loading">
+  <h1>{{ groupDetails.group.name }}</h1>
+  <p>ID: {{ groupDetails.group.pk }}</p>
+  <p>Created At: {{ groupDetails.group.created_at }}</p>
+</div>
+
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>

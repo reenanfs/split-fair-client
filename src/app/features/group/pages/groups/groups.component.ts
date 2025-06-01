@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,8 +9,10 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 
-import { environment } from 'src/environments/environment';
+import { GroupService } from '@features/group/services/group.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-groups',
@@ -22,15 +23,17 @@ import { environment } from 'src/environments/environment';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatCardModule,
+    RouterModule,
   ],
   templateUrl: './groups.component.html',
   styleUrl: './groups.component.scss',
 })
-export class GroupsComponent {
+export class GroupsComponent implements OnInit {
   groupCreationForm: FormGroup;
 
   constructor(
-    private http: HttpClient,
+    public groupService: GroupService,
     private formBuilder: FormBuilder,
   ) {
     this.groupCreationForm = this.formBuilder.group({
@@ -38,20 +41,16 @@ export class GroupsComponent {
     });
   }
 
-  createGroup() {
+  ngOnInit(): void {
+    this.groupService.retrieveGroups().subscribe();
+  }
+
+  handleGroupCreation() {
     if (this.groupCreationForm.valid) {
-      this.http
-        .post(`${environment.apiUrl}/api/v1/groups`, {
-          name: this.groupCreationForm.value.groupName,
-        })
+      this.groupService
+        .createGroup(this.groupCreationForm.value.groupName)
         .subscribe({
-          next: (res) => {
-            console.log('Group created!', res);
-            this.groupCreationForm.reset();
-            this.groupCreationForm.markAsPristine();
-            this.groupCreationForm.markAsUntouched();
-            this.groupCreationForm.updateValueAndValidity();
-          },
+          next: () => this.resetForm(),
           error: (error) => {
             console.log('An error ocurred!', error);
           },
@@ -59,14 +58,10 @@ export class GroupsComponent {
     }
   }
 
-  retrieveGroups() {
-    this.http.get(`${environment.apiUrl}/api/v1/groups`).subscribe({
-      next: (res) => {
-        console.log('Groups retrieves!', res);
-      },
-      error: (error) => {
-        console.log('An error ocurred!', error);
-      },
-    });
+  private resetForm(): void {
+    this.groupCreationForm.reset();
+    this.groupCreationForm.markAsPristine();
+    this.groupCreationForm.markAsUntouched();
+    this.groupCreationForm.updateValueAndValidity();
   }
 }

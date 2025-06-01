@@ -1,0 +1,50 @@
+<form [formGroup]="groupCreationForm" (ngSubmit)="handleGroupCreation()">
+  <mat-form-field appearance="outline">
+    <mat-label>Group Name</mat-label>
+    <input
+      matInput
+      placeholder="Enter group name"
+      formControlName="groupName"
+      required
+    />
+    <mat-error
+      *ngIf="
+        groupCreationForm.get('groupName')?.hasError('required') &&
+        groupCreationForm.get('groupName')?.touched
+      "
+    >
+      Group name is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="groupCreationForm.invalid"
+    type="submit"
+  >
+    Create group
+  </button>
+</form>
+
+<div class="groups-container">
+  <mat-card
+    class="group-card"
+    appearance="outlined"
+    *ngFor="let group of (this.groupService.groups$ | async) || []"
+  >
+    <mat-card-header>
+      <img
+        mat-card-avatar
+        alt
+        [src]="'https://material.angular.dev/assets/img/examples/shiba1.jpg'"
+      />
+      <mat-card-title>{{ group.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-raised-button [routerLink]="['/groups', group.group_id]">
+        Enter
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
