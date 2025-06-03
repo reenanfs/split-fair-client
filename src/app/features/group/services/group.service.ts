@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 
+import { environment } from '@environments/environment';
 import { GroupDetails } from '@features/group/models/group-details.model';
 import {
   ListResponseModel,
   ResponseModel,
 } from '@shared/models/http/response.model';
 import { Group } from '@features/group/models/group.model';
+import { ExpenseService } from '@shared/services/expense.service';
+import { ExpenseWithSplit } from '@shared/models/expense/expense.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,10 @@ export class GroupService {
     Map<string, GroupDetails>
   >(this.groupDetailsMap);
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private expenseService: ExpenseService,
+  ) {}
 
   createGroup(name: string): Observable<ResponseModel<Group>> {
     return this.http
@@ -78,5 +82,27 @@ export class GroupService {
           this.groupDetailsMapSubject.next(new Map(this.groupDetailsMap));
         }),
       );
+  }
+
+  createExpenseForGroup(
+    groupId: string,
+  ): Observable<ResponseModel<ExpenseWithSplit>> {
+    return this.expenseService.createExpense(groupId).pipe(
+      tap(({ data: newExpense }) => {
+        const currentGroupDetails = this.groupDetailsMap.get(groupId);
+
+        if (!currentGroupDetails) {
+          return;
+        }
+
+        currentGroupDetails.expenses = [
+          ...currentGroupDetails.expenses,
+          newExpense,
+        ];
+
+        this.groupDetailsMap.set(groupId, currentGroupDetails);
+        this.groupDetailsMapSubject.next(new Map(this.groupDetailsMap));
+      }),
+    );
   }
 }

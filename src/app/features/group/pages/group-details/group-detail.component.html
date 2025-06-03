@@ -2,6 +2,10 @@
   <h1>{{ groupDetails.group.name }}</h1>
   <p>ID: {{ groupDetails.group.pk }}</p>
   <p>Created At: {{ groupDetails.group.created_at }}</p>
+
+  <button mat-raised-button (click)="this.openExpenseModal()">
+    Create Expense
+  </button>
 </div>
 
 <ng-template #loading>

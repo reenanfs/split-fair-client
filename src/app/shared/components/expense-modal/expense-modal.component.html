@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Create Expense</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="expenseCreationForm" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description" required />
+      <mat-error
+        *ngIf="expenseCreationForm.get('description')?.hasError('required')"
+      >
+        Description is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Total Amount</mat-label>
+      <input matInput type="number" formControlName="totalAmount" required />
+      <mat-error
+        *ngIf="expenseCreationForm.get('totalAmount')?.hasError('required')"
+      >
+        Total amount is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Currency</mat-label>
+      <input matInput formControlName="currency" required />
+      <mat-error
+        *ngIf="expenseCreationForm.get('currency')?.hasError('required')"
+      >
+        Currency is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Category (optional)</mat-label>
+      <input matInput formControlName="category" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Split with (comma-separated user IDs)</mat-label>
+      <input
+        matInput
+        formControlName="splitWith"
+        placeholder="e.g. user1,user2"
+      />
+      <mat-error
+        *ngIf="expenseCreationForm.get('splitWith')?.hasError('required')"
+      >
+        You must specify at least one user
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button [mat-dialog-close]>Submit</button>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

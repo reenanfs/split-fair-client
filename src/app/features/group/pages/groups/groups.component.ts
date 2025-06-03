@@ -46,16 +46,17 @@ export class GroupsComponent implements OnInit {
   }
 
   handleGroupCreation() {
-    if (this.groupCreationForm.valid) {
-      this.groupService
-        .createGroup(this.groupCreationForm.value.groupName)
-        .subscribe({
-          next: () => this.resetForm(),
-          error: (error) => {
-            console.log('An error ocurred!', error);
-          },
-        });
+    if (this.groupCreationForm.invalid) {
+      return;
     }
+    this.groupService
+      .createGroup(this.groupCreationForm.value.groupName)
+      .subscribe({
+        next: () => this.resetForm(),
+        error: (error) => {
+          console.log('An error ocurred!', error);
+        },
+      });
   }
 
   private resetForm(): void {
@@ -63,5 +64,9 @@ export class GroupsComponent implements OnInit {
     this.groupCreationForm.markAsPristine();
     this.groupCreationForm.markAsUntouched();
     this.groupCreationForm.updateValueAndValidity();
+
+    Object.values(this.groupCreationForm.controls).forEach((control) =>
+      control.setErrors(null),
+    );
   }
 }
